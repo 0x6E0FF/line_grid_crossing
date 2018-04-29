@@ -23,18 +23,23 @@ static void draw_line_crossing()
 	Point p2 = line[(currentPoint+1)%2];
 	Point p3;
 			
+	if (print == 1)
+	{
+		printf(" * init : %5.3f %5.3f -> %5.3f %5.3f\n", p1.x, p1.y, p2.x, p2.y);
+	}
 	float dx = p2.x - p1.x;
 	float dy = p2.y - p1.y;
 
 	int next_x = (int)(p1.x + ((dx < 0) ? 0.0 : 1.0));
-	int next_y = (int)(p1.y + ((dy < 0) ? 0.0 : 1.0));;
-	while ( ((dx < 0 && p1.x >= p2.x) || (dx >= 0 && p1.x <= p2.x))
-       	 || ((dy < 0 && p1.y >= p2.y) || (dy >= 0 && p1.y <= p2.y)))
+	int next_y = (int)(p1.y + ((dy < 0) ? 0.0 : 1.0));
+	int index = 0;
+	while ( ((dx < 0 && p1.x > p2.x) || (dx >= 0 && p1.x < p2.x))
+       	 || ((dy < 0 && p1.y > p2.y) || (dy >= 0 && p1.y < p2.y)))
 	{
 		if (dx == 0.0)
 		{
 			p3.x = p1.x;
-			p2.y = next_y;
+			p3.y = next_y;
 			next_y += (dy < 0) ? -1 : 1;
 		}
 		else if (dy == 0.0)
@@ -98,8 +103,15 @@ static void draw_line_crossing()
 			glVertex2f(p3.x, p3.y - 0.2);
 			glVertex2f(p3.x, p3.y + 0.2);
 		glEnd();
+		
+		
 		p1 = p3;
+		if (print == 1)
+		{
+			printf(" %05d : %5.3f %5.3f -> %5.3f %5.3f\n", index++, p1.x, p1.y, p2.x, p2.y);
+		}
 	}
+	print = 0;
 	
 	/* draw original line */
 	glEnable(GL_LINE_SMOOTH);

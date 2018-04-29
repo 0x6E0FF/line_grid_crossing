@@ -71,6 +71,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     UpdateWindow (ghWnd); 
  
     /* animation loop */ 
+	int index = 0;
     while (1) { 
         /* 
          *  Process all pending messages 
@@ -86,8 +87,11 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
             } 
         } 
 		
-        drawScene(); 
-		SwapBuffers(ghDC);
+		if (index++ % 1000 == 0)
+		{
+			drawScene(); 
+			SwapBuffers(ghDC);
+		}	
     } 
 } 
  
